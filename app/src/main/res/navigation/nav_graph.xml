@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.dino.great.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:name="com.dino.great.module.list.PostListingFragment"
+        android:label="@string/post_fragment_label"
+        tools:layout="@layout/fragment_post">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
@@ -17,9 +17,9 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.dino.great.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        android:name="com.dino.great.module.detail.PostDetailFragment"
+        android:label="@string/post_list_fragment_label"
+        tools:layout="@layout/fragment_post_detail">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
