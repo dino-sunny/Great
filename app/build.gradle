@@ -49,11 +49,11 @@ android {
     productFlavors {
         //Build to get release apk
         production {
-            buildConfigField 'String', 'BASEURL', '"http://www.mocky.io/v2"'
+            buildConfigField 'String', 'BASEURL', '"https://jsonplaceholder.typicode.com/"'
         }
         //Build to get developer apk
         debuging {
-            buildConfigField 'String', 'BASEURL', '"http://www.mocky.io/v2/"'
+            buildConfigField 'String', 'BASEURL', '"https://jsonplaceholder.typicode.com/"'
         }
     }
 }

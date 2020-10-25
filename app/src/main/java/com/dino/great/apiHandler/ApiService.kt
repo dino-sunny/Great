@@ -1,6 +1,8 @@
 package com.dino.great.apiHandler
 
 import com.dino.great.BuildConfig
+import com.dino.great.module.list.Photo
+import com.dino.great.module.list.Post
 import retrofit2.Response
 import retrofit2.http.GET
 
@@ -13,7 +15,12 @@ interface ApiService {
     }
 
     /**
-     * Employee List*/
-//    @GET("5d565297300000680030a986")
-//    suspend fun getEmployeeList(): Response<List<Employee>?>
+     * Post List*/
+    @GET("posts")
+    suspend fun getPosts(): Response<List<Post>?>
+
+    /**
+     * Photo List*/
+    @GET("photos")
+    suspend fun getPhotos(): Response<List<Photo>?>
 }
