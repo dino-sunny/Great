@@ -32,7 +32,7 @@ class PostListViewModel : ViewModel(){
         }
     }
 
-    private fun getPhotos() {
+    fun getPhotos() {
         viewModelScope.launch {
             val response =  ApiService.instance.getPhotos()
             try {

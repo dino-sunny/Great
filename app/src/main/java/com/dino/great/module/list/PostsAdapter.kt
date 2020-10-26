@@ -6,8 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dino.great.databinding.PostItemBinding
+import com.dino.great.utilities.ImageHandler
 
-class PostsAdapter(private val clickListener: PostListListener) : ListAdapter<PostAndImages, ViewHolder>(
+class PostsAdapter(private val clickListener: PostListListener) : ListAdapter<Post, ViewHolder>(
     RecentDiffCallback()
 ){
 
@@ -19,29 +20,30 @@ class PostsAdapter(private val clickListener: PostListListener) : ListAdapter<Po
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
+        ImageHandler.setGlideImage(item.imageUrl, holder.binding.postImage)
         holder.bind((item),clickListener)
     }
 }
 
 class ViewHolder(val binding: PostItemBinding): RecyclerView.ViewHolder(binding.root){
 
-    fun bind(item: PostAndImages, clickListener: PostListListener) {
+    fun bind(item: Post, clickListener: PostListListener) {
         binding.post = item
         binding.clickListener = clickListener
         binding.executePendingBindings()
     }
 }
 
-class PostListListener(val clickListener: (employee: PostAndImages) -> Unit) {
-    fun onClick(employee: PostAndImages) = clickListener(employee)
+class PostListListener(val clickListener: (post: Post) -> Unit) {
+    fun onClick(post: Post) = clickListener(post)
 }
 
-class RecentDiffCallback : DiffUtil.ItemCallback<PostAndImages>() {
-    override fun areItemsTheSame(oldItem: PostAndImages, newItem: PostAndImages): Boolean {
-        return oldItem.mPosts == newItem.mPosts
+class RecentDiffCallback : DiffUtil.ItemCallback<Post>() {
+    override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
+        return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: PostAndImages, newItem: PostAndImages): Boolean {
-        return oldItem.mPosts == newItem.mPosts
+    override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
+        return oldItem == newItem
     }
 }
