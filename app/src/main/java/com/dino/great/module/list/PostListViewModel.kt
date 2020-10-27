@@ -15,8 +15,19 @@ class PostListViewModel : ViewModel(){
     private var photoResponse =  MutableLiveData<List<Photo>?>()
     val responsePhotos: LiveData<List<Photo>?> get() = photoResponse
 
+    private val _navigateToDetail = MutableLiveData<Post>()
+    val eventNavigateDetail: LiveData<Post> get() = _navigateToDetail
+
     init {
         getPosts()
+    }
+
+    fun onPostClicked(post: Post) {
+        _navigateToDetail.value = post
+    }
+
+    fun onPostNavigated() {
+        _navigateToDetail.value = null
     }
 
     private fun getPosts() {

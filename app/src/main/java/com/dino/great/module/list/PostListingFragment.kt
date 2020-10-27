@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.dino.great.R
 import com.dino.great.databinding.FragmentPostBinding
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.gson.Gson
 import java.util.*
 
 class PostListingFragment : Fragment() {
@@ -34,6 +34,7 @@ class PostListingFragment : Fragment() {
 
         return binding.root
     }
+    
 
     //Observing live data
     private fun setObservers() {
@@ -58,21 +59,24 @@ class PostListingFragment : Fragment() {
                 }
             }
         })
+        viewModel.eventNavigateDetail.observe(viewLifecycleOwner, { post ->
+            post?.let {
+                val mData = Gson().toJson(it)
+                findNavController().navigate(
+                    PostListingFragmentDirections
+                        .actionListFragmentToDetailFragment(mData)
+                )
+                viewModel.onPostNavigated()
+            }
+        })
     }
 
     private fun setAdapter() {
         binding.posts.setHasFixedSize(true)
         postsAdapter = PostsAdapter(
             PostListListener { post ->
-//                viewModel.onPostClicked(post)
+                viewModel.onPostClicked(post)
             })
         binding.posts.adapter = postsAdapter
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        view.findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
     }
 }
