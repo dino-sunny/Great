@@ -15,9 +15,6 @@ object ImageHandler{
         Glide.with(imageView.context)
             .load(imageUrl)
             .placeholder(R.drawable.picture)
-            .apply(
-                RequestOptions()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL))
             .error(R.drawable.picture)
             .into(imageView)
     }

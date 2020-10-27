@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.dino.great.R
 import com.dino.great.databinding.FragmentPostBinding
+import com.dino.great.databinding.FragmentPostDetailBinding
 import com.google.gson.Gson
 import java.util.*
 
@@ -25,7 +26,7 @@ class PostListingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_post, container, false)
+        binding = FragmentPostBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(PostListViewModel::class.java)
         binding.viewModel = viewModel
 
