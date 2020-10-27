@@ -26,6 +26,8 @@ interface ApiService {
     @GET("photos")
     suspend fun getPhotos(): Response<List<Photo>?>
 
+    /**
+     * Get Comments*/
     @GET("posts/{id}/comments")
     suspend fun getComments(@Path("id") postId: Int): Response<List<Comment>?>
 }

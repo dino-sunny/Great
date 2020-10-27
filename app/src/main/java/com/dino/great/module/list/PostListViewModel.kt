@@ -30,6 +30,7 @@ class PostListViewModel : ViewModel(){
         _navigateToDetail.value = null
     }
 
+    //Get Posts from API
     private fun getPosts() {
         viewModelScope.launch {
             val response =  ApiService.instance.getPosts()
@@ -43,6 +44,7 @@ class PostListViewModel : ViewModel(){
         }
     }
 
+    //Get Photos from API
     fun getPhotos() {
         viewModelScope.launch {
             val response =  ApiService.instance.getPhotos()

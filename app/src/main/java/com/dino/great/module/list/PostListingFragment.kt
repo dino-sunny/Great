@@ -4,13 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.dino.great.R
 import com.dino.great.databinding.FragmentPostBinding
-import com.dino.great.databinding.FragmentPostDetailBinding
 import com.google.gson.Gson
 import java.util.*
 
@@ -35,7 +32,16 @@ class PostListingFragment : Fragment() {
 
         return binding.root
     }
-    
+
+    //Post list Adapter
+    private fun setAdapter() {
+        binding.posts.setHasFixedSize(true)
+        postsAdapter = PostsAdapter(
+            PostListListener { post ->
+                viewModel.onPostClicked(post)
+            })
+        binding.posts.adapter = postsAdapter
+    }
 
     //Observing live data
     private fun setObservers() {
@@ -49,35 +55,35 @@ class PostListingFragment : Fragment() {
         })
         viewModel.responsePhotos.observe(viewLifecycleOwner, {
             it?.let { list ->
-                if (list.isNotEmpty()) {
-                    for (item in post){
-                        val index = Random().nextInt(it.size - 1)
-                        val imageUrl: String? = it[index].thumbnailUrl
-                        item.imageUrl = imageUrl
-                    }
-                    postsAdapter.submitList(post)
-
-                }
+                if (list.isNotEmpty()) { processingPosts(it)}
             }
         })
+        //Navigate action handling
         viewModel.eventNavigateDetail.observe(viewLifecycleOwner, { post ->
-            post?.let {
-                val mData = Gson().toJson(it)
-                findNavController().navigate(
-                    PostListingFragmentDirections
-                        .actionListFragmentToDetailFragment(mData)
-                )
-                viewModel.onPostNavigated()
-            }
+            post?.let { navigateToDetails(post)}
         })
     }
 
-    private fun setAdapter() {
-        binding.posts.setHasFixedSize(true)
-        postsAdapter = PostsAdapter(
-            PostListListener { post ->
-                viewModel.onPostClicked(post)
-            })
-        binding.posts.adapter = postsAdapter
+    //Adding images to post in a random order.
+    private fun processingPosts(it: List<Photo>) {
+        for (item in post){
+            val index = Random().nextInt(it.size - 1)
+            val imageUrl: String? = it[index].thumbnailUrl
+            item.imageUrl = imageUrl
+        }
+        //update post list
+        postsAdapter.submitList(post)
+
     }
+
+    //Navigate to Details with post data
+    private fun navigateToDetails(post: Post) {
+        val mData = Gson().toJson(post)
+        findNavController().navigate(
+            PostListingFragmentDirections
+                .actionListFragmentToDetailFragment(mData)
+        )
+        viewModel.onPostNavigated()
+    }
+
 }

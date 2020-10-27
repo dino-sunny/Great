@@ -4,20 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import com.dino.great.R
 import com.dino.great.databinding.FragmentPostDetailBinding
 import com.dino.great.module.list.Post
-import com.dino.great.module.list.PostListListener
-import com.dino.great.module.list.PostListingFragmentDirections
-import com.dino.great.module.list.PostsAdapter
 import com.dino.great.utilities.ImageHandler
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
-import java.util.*
 
 class PostDetailFragment : Fragment() {
     private lateinit var binding: FragmentPostDetailBinding
@@ -37,6 +29,8 @@ class PostDetailFragment : Fragment() {
         setObservers()
         return binding.root
     }
+
+    //Adapter to set comments
     private fun setAdapter() {
         commentsAdapter = CommentsAdapter()
         binding.comments.adapter = commentsAdapter
@@ -44,23 +38,41 @@ class PostDetailFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        getDataFromIntent()
+    }
+
+    //Get post details from arguments passed.
+    private fun getDataFromIntent() {
         if (arguments?.get("Post")!=null) {
             val jsonString = arguments?.get("Post") as String?
             post = Gson().fromJson(jsonString, Post::class.java)
-            binding.post = post
-            ImageHandler.setGlideImage(post.imageUrl, binding.backdrop)
-            viewModel.getComments(post.id)
+            setData()
         }
     }
+
+    //Set data to the UI using binding
+    private fun setData() {
+        binding.post = post
+        ImageHandler.setGlideImage(post.imageUrl, binding.backdrop)
+        viewModel.getComments(post.id)
+        // Call Network API to fetch the comments for this post.
+    }
+
     //Observing live data
     private fun setObservers() {
         viewModel.responseComment.observe(viewLifecycleOwner, {
-            it?.let { list ->
-                if (list.isNotEmpty()) {
-                    commentsAdapter.submitList(list)
-                }
-            }
+            it?.let { list -> updateComments(list)}
         })
+    }
+
+    //Update the adapter with 1st 3 comments
+    //if the list size more than 3 else update the list.
+    private fun updateComments(list: List<Comment>) {
+        if (list.isNotEmpty() && list.size>3) {
+            commentsAdapter.submitList(list.subList(0,3))
+        }else{
+            commentsAdapter.submitList(list)
+        }
     }
 
 }

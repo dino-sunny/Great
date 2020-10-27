@@ -34,6 +34,7 @@ class ViewHolder(val binding: PostItemBinding): RecyclerView.ViewHolder(binding.
     }
 }
 
+//Listener to handle item click actions
 class PostListListener(val clickListener: (post: Post) -> Unit) {
     fun onClick(post: Post) = clickListener(post)
 }

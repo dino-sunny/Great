@@ -4,5 +4,6 @@
     <string name="post_fragment_label">Post Fragment</string>
     <string name="post_list_fragment_label">List Fragment</string>
     <string name="post_image">post image</string>
+    <string name="detail_image">detail image</string>
 
 </resources>

@@ -12,6 +12,7 @@ class PostDetailViewModel : ViewModel(){
     private var commentResponse =  MutableLiveData<List<Comment>?>()
     val responseComment: LiveData<List<Comment>?> get() = commentResponse
 
+    //Get the comments from API
     fun getComments(postId: Int) {
         viewModelScope.launch {
             val response =  ApiService.instance.getComments(postId)

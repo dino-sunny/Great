@@ -22,7 +22,7 @@ class CommentsAdapter : ListAdapter<Comment, ViewHolder>(DetailsDiffCallback()
     }
 }
 
-class ViewHolder(val binding: CommentItemBinding): RecyclerView.ViewHolder(binding.root){
+class ViewHolder(private val binding: CommentItemBinding): RecyclerView.ViewHolder(binding.root){
 
     fun bind(item: Comment) {
         binding.comment = item

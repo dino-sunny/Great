@@ -39,7 +39,8 @@
                     android:layout_height="match_parent"
                     android:fitsSystemWindows="true"
                     app:layout_collapseMode="parallax"
-                    android:contentDescription="TODO" />
+                    android:scaleType="fitCenter"
+                    android:contentDescription="@string/detail_image" />
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
