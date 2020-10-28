@@ -10,7 +10,11 @@ import com.dino.great.R
 import com.dino.great.databinding.FragmentPostDetailBinding
 import com.dino.great.module.list.Post
 import com.dino.great.utilities.ImageHandler
+import com.dino.great.utilities.NetworkCheck
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.fragment_post.*
+import kotlinx.android.synthetic.main.fragment_post_detail.*
+import kotlinx.android.synthetic.main.fragment_post_detail.animationView
 
 class PostDetailFragment : Fragment() {
     private lateinit var binding: FragmentPostDetailBinding
@@ -55,14 +59,34 @@ class PostDetailFragment : Fragment() {
     private fun setData() {
         binding.post = post
         ImageHandler.setGlideImage(post.imageUrl, binding.backdrop)
-        viewModel.getComments(post.id)
-        // Call Network API to fetch the comments for this post.
+        getComments()
+    }
+
+    //Get the posts if network connection available else .
+    //network error message
+    private fun getComments() {
+        if (NetworkCheck.isOnline(requireContext())) {
+            animationView.visibility = View.VISIBLE
+            binding.noInternetLayout.visibility = View.GONE
+            viewModel.getComments(post.id)
+
+        }else{
+            binding.noInternetLayout.visibility = View.VISIBLE
+        }
     }
 
     //Observing live data
     private fun setObservers() {
         viewModel.responseComment.observe(viewLifecycleOwner, {
-            it?.let { list -> updateComments(list)}
+            it?.let { list ->
+                animationView.visibility = View.GONE
+                updateComments(list)}
+        })
+        viewModel.retry.observe(viewLifecycleOwner, { isClicked ->
+            if (isClicked) {
+                getComments()
+                viewModel.onRetryComplete()
+            }
         })
     }
 
