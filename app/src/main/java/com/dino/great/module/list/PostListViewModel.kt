@@ -18,9 +18,9 @@ class PostListViewModel : ViewModel(){
     private val _navigateToDetail = MutableLiveData<Post>()
     val eventNavigateDetail: LiveData<Post> get() = _navigateToDetail
 
-    init {
-        getPosts()
-    }
+    // Event which triggers
+    private val eventRetry = MutableLiveData<Boolean>()
+    val retry: LiveData<Boolean> get() = eventRetry
 
     fun onPostClicked(post: Post) {
         _navigateToDetail.value = post
@@ -30,8 +30,15 @@ class PostListViewModel : ViewModel(){
         _navigateToDetail.value = null
     }
 
+    fun onRetryClick(){
+        eventRetry.value = true
+    }
+    fun onRetryComplete(){
+        eventRetry.value = false
+    }
+
     //Get Posts from API
-    private fun getPosts() {
+    fun getPosts() {
         viewModelScope.launch {
             val response =  ApiService.instance.getPosts()
             try {

@@ -1,5 +1,6 @@
 package com.dino.great.module.list
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.dino.great.databinding.FragmentPostBinding
+import com.dino.great.utilities.NetworkCheck
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_post.*
 import java.util.*
@@ -30,8 +32,22 @@ class PostListingFragment : Fragment() {
 
         setAdapter()
         setObservers()
-
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        getPosts()
+    }
+
+    private fun getPosts() {
+        if (NetworkCheck.isOnline(requireContext())) {
+            animationView.visibility = View.VISIBLE
+            noInternetLayout.visibility = View.GONE
+            viewModel.getPosts()
+        }else{
+            noInternetLayout.visibility = View.VISIBLE
+        }
     }
 
     //Post list Adapter
@@ -46,18 +62,26 @@ class PostListingFragment : Fragment() {
 
     //Observing live data
     private fun setObservers() {
+        viewModel.retry.observe(viewLifecycleOwner, { isClicked ->
+            if (isClicked) {
+                getPosts()
+                viewModel.onRetryComplete()
+            }
+        })
         viewModel.responsePosts.observe(viewLifecycleOwner, {
             it?.let { list ->
                 if (list.isNotEmpty()) {
                     this.post = list
                     viewModel.getPhotos()
-                }
+                }else connectionAlerts()
+
             }
         })
         viewModel.responsePhotos.observe(viewLifecycleOwner, {
             it?.let { list ->
                 animationView.visibility = View.GONE
-                if (list.isNotEmpty()) { processingPosts(it)}
+                if (list.isNotEmpty()) { processingPosts(it)}else connectionAlerts()
+
             }
         })
         //Navigate action handling
@@ -87,5 +111,18 @@ class PostListingFragment : Fragment() {
         )
         viewModel.onPostNavigated()
     }
+    private fun  connectionAlerts(){
+        val dialogBuilder = AlertDialog.Builder(activity)
+        dialogBuilder.setMessage("Something went wrong!")
+            // if the dialog is cancelable
+            .setCancelable(false)
+            .setPositiveButton("Retry") { dialog, id ->
+                dialog.dismiss()
 
+            }
+
+        val alert = dialogBuilder.create()
+        alert.setTitle("Connection Timeout")
+        alert.show()
+    }
 }
