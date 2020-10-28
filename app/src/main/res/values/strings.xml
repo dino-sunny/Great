@@ -5,7 +5,10 @@
     <string name="post_list_fragment_label">List Fragment</string>
     <string name="post_image">post image</string>
     <string name="detail_image">detail image</string>
-    <string name="retry">Retry</string>
     <string name="no_internet_connection">No internet connection!</string>
+    <string name="timeout_message">Something went wrong!</string>
+    <string name="retry">Retry</string>
+    <string name="timeout">Connection Timeout</string>
+    <string name="post">Post</string>
 
 </resources>

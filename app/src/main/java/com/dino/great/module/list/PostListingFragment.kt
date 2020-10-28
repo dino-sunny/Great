@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.dino.great.R
 import com.dino.great.databinding.FragmentPostBinding
+import com.dino.great.utilities.AppUtils.Companion.postAndPhotos
 import com.dino.great.utilities.NetworkCheck
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_post.*
@@ -40,6 +42,8 @@ class PostListingFragment : Fragment() {
         getPosts()
     }
 
+    //Get the posts if network connection available else .
+    //network error message
     private fun getPosts() {
         if (NetworkCheck.isOnline(requireContext())) {
             animationView.visibility = View.VISIBLE
@@ -80,7 +84,9 @@ class PostListingFragment : Fragment() {
         viewModel.responsePhotos.observe(viewLifecycleOwner, {
             it?.let { list ->
                 animationView.visibility = View.GONE
-                if (list.isNotEmpty()) { processingPosts(it)}else connectionAlerts()
+                if (list.isNotEmpty()) {
+                    postsAdapter.submitList(postAndPhotos(it,post))
+                }else connectionAlerts()
 
             }
         })
@@ -88,18 +94,6 @@ class PostListingFragment : Fragment() {
         viewModel.eventNavigateDetail.observe(viewLifecycleOwner, { post ->
             post?.let { navigateToDetails(post)}
         })
-    }
-
-    //Adding images to post in a random order.
-    private fun processingPosts(it: List<Photo>) {
-        for (item in post){
-            val index = Random().nextInt(it.size - 1)
-            val imageUrl: String? = it[index].thumbnailUrl
-            item.imageUrl = imageUrl
-        }
-        //update post list
-        postsAdapter.submitList(post)
-
     }
 
     //Navigate to Details with post data
@@ -111,18 +105,20 @@ class PostListingFragment : Fragment() {
         )
         viewModel.onPostNavigated()
     }
+
+    //Connection timeout alert and retry dialog
     private fun  connectionAlerts(){
         val dialogBuilder = AlertDialog.Builder(activity)
-        dialogBuilder.setMessage("Something went wrong!")
+        dialogBuilder.setMessage(getString(R.string.timeout_message))
             // if the dialog is cancelable
             .setCancelable(false)
-            .setPositiveButton("Retry") { dialog, id ->
+            .setPositiveButton(getString(R.string.retry)) { dialog, _ ->
                 dialog.dismiss()
-
+                getPosts()
             }
 
         val alert = dialogBuilder.create()
-        alert.setTitle("Connection Timeout")
+        alert.setTitle(getString(R.string.timeout))
         alert.show()
     }
 }

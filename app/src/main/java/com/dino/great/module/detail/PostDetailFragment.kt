@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.dino.great.R
 import com.dino.great.databinding.FragmentPostDetailBinding
 import com.dino.great.module.list.Post
 import com.dino.great.utilities.ImageHandler
@@ -43,8 +44,8 @@ class PostDetailFragment : Fragment() {
 
     //Get post details from arguments passed.
     private fun getDataFromIntent() {
-        if (arguments?.get("Post")!=null) {
-            val jsonString = arguments?.get("Post") as String?
+        if (arguments?.get(getString(R.string.post))!=null) {
+            val jsonString = arguments?.get(getString(R.string.post)) as String?
             post = Gson().fromJson(jsonString, Post::class.java)
             setData()
         }
