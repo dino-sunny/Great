@@ -24,6 +24,7 @@
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 app:contentScrim="?attr/colorPrimary"
+                app:title="Posts"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:toolbarId="@+id/toolbar">
 
@@ -53,6 +54,16 @@
             app:layout_anchor="@id/app_bar"
             app:layout_anchorGravity="bottom|end"
             app:srcCompat="@android:drawable/ic_dialog_email" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:lottie_rawRes="@raw/loader"
+            app:lottie_autoPlay="true"
+            android:layout_marginBottom="100dp"
+            android:layout_gravity="bottom|center_horizontal"
+            app:lottie_loop="true"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

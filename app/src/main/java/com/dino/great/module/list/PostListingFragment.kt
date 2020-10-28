@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.dino.great.databinding.FragmentPostBinding
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.fragment_post.*
 import java.util.*
 
 class PostListingFragment : Fragment() {
@@ -55,6 +56,7 @@ class PostListingFragment : Fragment() {
         })
         viewModel.responsePhotos.observe(viewLifecycleOwner, {
             it?.let { list ->
+                animationView.visibility = View.GONE
                 if (list.isNotEmpty()) { processingPosts(it)}
             }
         })
