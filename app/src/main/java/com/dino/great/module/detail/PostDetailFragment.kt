@@ -10,12 +10,13 @@ import androidx.navigation.fragment.findNavController
 import com.dino.great.R
 import com.dino.great.databinding.FragmentPostDetailBinding
 import com.dino.great.module.list.Post
+import com.dino.great.utilities.AlertHandler
 import com.dino.great.utilities.ImageHandler
 import com.dino.great.utilities.NetworkCheck
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_post_detail.*
 
-class PostDetailFragment : Fragment() {
+class PostDetailFragment : Fragment(),AlertHandler.RetryResponseListener {
     private lateinit var binding: FragmentPostDetailBinding
     private lateinit var viewModel: PostDetailViewModel
     private lateinit var commentsAdapter: CommentsAdapter
@@ -80,7 +81,15 @@ class PostDetailFragment : Fragment() {
         viewModel.responseComment.observe(viewLifecycleOwner, {
             it?.let { list ->
                 animationView.visibility = View.GONE
-                updateComments(list)}
+                if (!list.isNullOrEmpty()) {
+                    updateComments(list)
+                }else context?.let { postsContext ->
+                    AlertHandler.showAlertWithRetry(
+                        postsContext,
+                        this
+                    )
+                }
+            }
         })
         viewModel.retry.observe(viewLifecycleOwner, { isClicked ->
             if (isClicked) {
@@ -104,6 +113,11 @@ class PostDetailFragment : Fragment() {
         }else{
             commentsAdapter.submitList(list)
         }
+    }
+
+    //Retry on connection error
+    override fun onRetry() {
+        getComments()
     }
 
 }
