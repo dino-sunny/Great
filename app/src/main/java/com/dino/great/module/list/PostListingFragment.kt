@@ -62,6 +62,7 @@ class PostListingFragment : Fragment() {
                 viewModel.onPostClicked(post)
             })
         binding.posts.adapter = postsAdapter
+//        postsAdapter.submitList(FakePostData.posts.toMutableList())
     }
 
     //Observing live data

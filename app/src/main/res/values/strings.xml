@@ -10,5 +10,6 @@
     <string name="retry">Retry</string>
     <string name="timeout">Connection Timeout</string>
     <string name="post">Post</string>
+    <string name="back_button">back button</string>
 
 </resources>

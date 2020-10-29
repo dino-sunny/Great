@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import com.dino.great.R
 import com.dino.great.databinding.FragmentPostDetailBinding
 import com.dino.great.module.list.Post
@@ -30,6 +33,7 @@ class PostDetailFragment : Fragment() {
         binding = FragmentPostDetailBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(PostDetailViewModel::class.java)
         binding.viewModel = viewModel
+
         setAdapter()
         setObservers()
         return binding.root
@@ -86,6 +90,12 @@ class PostDetailFragment : Fragment() {
             if (isClicked) {
                 getComments()
                 viewModel.onRetryComplete()
+            }
+        })
+        viewModel.back.observe(viewLifecycleOwner, { isClicked ->
+            if (isClicked) {
+                findNavController().popBackStack()
+                viewModel.onBackComplete()
             }
         })
     }

@@ -16,11 +16,21 @@ class PostDetailViewModel : ViewModel(){
     private val eventRetry = MutableLiveData<Boolean>()
     val retry: LiveData<Boolean> get() = eventRetry
 
+    private val eventBack = MutableLiveData<Boolean>()
+    val back: LiveData<Boolean> get() = eventBack
+
     fun onRetryClick(){
         eventRetry.value = true
     }
     fun onRetryComplete(){
         eventRetry.value = false
+    }
+
+    fun onBackClick(){
+        eventBack.value = true
+    }
+    fun onBackComplete(){
+        eventBack.value = false
     }
 
     //Get the comments from API
