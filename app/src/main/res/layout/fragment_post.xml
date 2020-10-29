@@ -58,12 +58,12 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animationView"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="@dimen/loader_width"
+            android:layout_height="@dimen/loader_height"
             app:lottie_rawRes="@raw/loader"
             app:lottie_autoPlay="true"
             android:visibility="invisible"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="@dimen/margin_loader"
             android:layout_gravity="bottom|center_horizontal"
             app:lottie_loop="true"/>
 
@@ -74,8 +74,8 @@
             android:visibility="gone">
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/no_internet_icon_width"
+                android:layout_height="@dimen/no_internet_icon_height"
                 android:id="@+id/noInternet"
                 android:contentDescription="@string/no_internet_connection"
                 android:src="@drawable/no_signal"
@@ -87,7 +87,7 @@
                 android:layout_below="@+id/noInternet"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/noInternetText"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/text_margin_top"
                 android:text="@string/no_internet_connection"/>
 
             <Button
@@ -95,9 +95,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/retry"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/no_internet_button_margin_top"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="100dp"
+                android:layout_marginBottom="@dimen/margin_loader"
                 android:background="@drawable/button_round"
                 android:layout_centerHorizontal="true"
                 app:layout_constraintTop_toTopOf="parent"

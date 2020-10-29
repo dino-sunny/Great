@@ -4,20 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import com.dino.great.R
 import com.dino.great.databinding.FragmentPostDetailBinding
 import com.dino.great.module.list.Post
 import com.dino.great.utilities.ImageHandler
 import com.dino.great.utilities.NetworkCheck
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.fragment_post.*
 import kotlinx.android.synthetic.main.fragment_post_detail.*
-import kotlinx.android.synthetic.main.fragment_post_detail.animationView
 
 class PostDetailFragment : Fragment() {
     private lateinit var binding: FragmentPostDetailBinding

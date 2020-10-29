@@ -14,7 +14,6 @@ import com.dino.great.utilities.AppUtils.Companion.postAndPhotos
 import com.dino.great.utilities.NetworkCheck
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_post.*
-import java.util.*
 
 class PostListingFragment : Fragment() {
     private lateinit var binding: FragmentPostBinding

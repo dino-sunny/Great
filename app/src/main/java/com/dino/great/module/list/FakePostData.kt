@@ -1,7 +1,5 @@
 package com.dino.great.module.list
 
-import com.dino.great.module.list.Post
-
 object FakePostData {
 
     val posts = arrayOf(

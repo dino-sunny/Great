@@ -3,4 +3,13 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="detail_backdrop_height">256dp</dimen>
     <dimen name="card_margin">16dp</dimen>
+    <dimen name="margin_loader">100dp</dimen>
+    <dimen name="loader_width">120dp</dimen>
+    <dimen name="loader_height">120dp</dimen>
+    <dimen name="no_internet_icon_width">50dp</dimen>
+    <dimen name="no_internet_icon_height">50dp</dimen>
+    <dimen name="text_margin_top">10dp</dimen>
+    <dimen name="no_internet_button_margin_top">16dp</dimen>
+    <dimen name="post_margin_start">15dp</dimen>
+    <dimen name="post_margin_end">26dp</dimen>
 </resources>
